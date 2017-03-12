@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index",
     "image:build": "docker build . -t duluca/minimal-node-web-server",
-    "image:run": "docker run -p 3000:8080 duluca/minimal-node-web-server",
+    "image:run": "docker run -p 8080:3000 duluca/minimal-node-web-server",
     "image:publish": "docker push duluca/minimal-node-web-server"
   },
   "repository": {

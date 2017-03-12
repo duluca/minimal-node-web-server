@@ -19,8 +19,13 @@ I intentionally kept the code simple and easy to read. It would be great exercis
 
 Read more about what Docker is, why it's important and how you can benefit from it [here](https://gist.github.com/duluca/25de70e41347f38b2283ef90ed69840a).
 
+## How to Build, Run and Publish
+There are three scripts in `package.json`
+- `npm run image:build` will rebuild the Docker image with any changes
+- `npm run image:run` will run the Docker image locally without having to publish it first
+- `npm run image:publish` will publish the image to http://hub.docker.com
+
 ## Resources
 The environment is configured following best practices from [NodeSource](https://nodesource.com/blog/8-protips-to-start-killing-it-when-dockerizing-node-js/).
 
 If you're interested in more advanced Node.js containers I recommend checking out official NodeSource containers.
-
