@@ -1,6 +1,8 @@
 # minimal-node-web-server
 > Containerized Minimal Node Web Server -- Perfect for $5 month micro instances
 
+Pull the Docker Image [![](https://images.microbadger.com/badges/version/duluca/minimal-node-web-server.svg)](https://microbadger.com/images/duluca/minimal-node-web-server "Get your own version badge on microbadger.com") `docker pull duluca/minimal-node-web-server`
+
 ## Quick Start
 See https://github.com/duluca/angular1.5-starter project as an example of how to use this container with your own front-end project.
 
