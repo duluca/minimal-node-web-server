@@ -5,7 +5,7 @@
   "main": "index.js",
   "imageRepo": "duluca/minimal-node-web-server",
   "imageName": "minimal-node",
-  "imagePort": "8080",
+  "imagePort": "3000",
   "scripts": {
     "start": "node index",
     "test": "jasmine",
