@@ -1,13 +1,21 @@
 {
   "name": "minimal-node-web-server",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Containerized Minimal Node Web Server",
   "main": "index.js",
+  "imageRepo": "duluca/minimal-node-web-server",
+  "imageName": "minimal-node",
+  "imagePort": "8080",
   "scripts": {
     "start": "node index",
-    "image:build": "docker build . -t duluca/minimal-node-web-server",
-    "image:run": "docker run -p 8080:3000 duluca/minimal-node-web-server",
-    "image:publish": "docker push duluca/minimal-node-web-server"
+    "test": "jasmine",
+    "image:build": "jasmine && with-package docker image build . -t pkg.imageRepo:latest",
+    "image:run": "npm run image:clean && npm run image:runHelper",
+    "image:runHelper": "with-package docker run --name pkg.imageName -d -p pkg.imagePort:3000 pkg.imageRepo",
+    "image:publish": "with-package docker image push pkg.imageRepo",
+    "image:clean": "with-package docker rm -f pkg.imageName || true",
+    "image:taillogs": "with-package docker logs -f pkg.imageName",
+    "image:debug": "npm run image:build && npm run image:run && sleep 1 && with-package open 'http://localhost:pkg.imagePort' && npm run image:taillogs"
   },
   "repository": {
     "type": "git",
@@ -31,7 +39,13 @@
     "body-parser": "^1.17.1",
     "compression": "^1.6.2",
     "express": "^4.15.2",
+    "express-sslify": "^1.2.0",
+    "lodash": "^4.17.4",
     "morgan": "^1.8.1",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "jasmine": "^2.6.0",
+    "with-package": "^0.2.0"
   }
 }

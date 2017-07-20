@@ -1,6 +1,7 @@
 FROM alpine
 MAINTAINER Doguhan Uluca <duluca@gmail.com>
 
+RUN apk update
 RUN apk --update --no-progress add nodejs unrar bash git
 
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.1.1/dumb-init_1.1.1_amd64 /usr/local/bin/dumb-init
@@ -11,7 +12,7 @@ RUN mkdir -p /usr/src/app
 RUN adduser -S nodejs
 RUN chown nodejs: /usr/src/app
 USER nodejs
-# RUN daemon with `dockerd --userns-remap=default`
+# RUN daemon with `dockerd --userns-remap=nodejs`
 
 WORKDIR /usr/src/app
 

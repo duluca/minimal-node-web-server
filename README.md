@@ -4,12 +4,67 @@
 Pull the Docker Image [![](https://images.microbadger.com/badges/version/duluca/minimal-node-web-server.svg)](https://microbadger.com/images/duluca/minimal-node-web-server "Get your own version badge on microbadger.com") `docker pull duluca/minimal-node-web-server`
 
 ## Quick Start
+Using this image as your web server is super easy.
+1. Create a `Dockerfile` on your projects new folder.
+2. Using `FROM` inherit from this image.
+3. Set the `WORKDIR` to `/usr/src/app`
+4. `COPY` your local `dist`, `build`, `public` or the folder that contains your finalized (transpiled, compiled, minified) output to the server's `public` folder.
+5. Want to enforce `HTTPS`? See below.
+
+### HTTP Example
+```Dockerfile
+FROM duluca/minimal-node-web-server
+
+WORKDIR /usr/src/app
+
+ENV NODE_ENV=local
+
+#COPY "your local folder on your development environment (dist, build, public, etc)" "server's public content folder inside the container (public)"
+COPY dist public
+```
+
 See https://github.com/duluca/angular1.5-starter project as an example of how to use this container with your own front-end project.
 
 ## Why Should You Use This Image?
 A simple Express.js server to serve web content from the public folder. Alpine Linux is utilized to achieve absolute minimal memory footprint (~25mb).
 
 This is will work great, if all you're doing is serving static content. If you intend to run a full-stack Node.js application, then your mileage may vary for intense and highly sensitive workloads.
+
+### HTTPS Forwarding
+You may set `ENV ENFORCE_HTTPS=true` in your Dockerfile to forward all HTTP requests to HTTPS.
+
+```Dockerfile
+FROM duluca/minimal-node-web-server
+
+WORKDIR /usr/src/app
+COPY dist public
+
+ENV ENFORCE_HTTPS=true
+```
+
+_Beware:_ Setting up `HTTPS` in production is not a straight forward process. For the most part you'll be relying on your cloud provider to the complicated stuff for you, like housing your private keys, reverse proxying or load balancing. In that case use the settings below *instead* of `ENFORCE_HTTPS`:
+1. If you're on AWS ECS & ELB, Heroku or others that use `x-forwarded-proto` and would  like to enforce HTTPS then add this to Dockerfile: `ENV ENFORCE_HTTPS_PROTO=true`
+2. If you're on Azure and would like to enforce HTTPS then add this to Dockerfile: `ENV ENFORCE_HTTPS_AZURE=true`
+3. If you need `X-Forwarded-Host` support and would like to enforce HTTPS then add this to Dockerfile: `ENV ENFORCE_HTTPS_X_FORWARDED_HOST=true`
+
+See https://www.npmjs.com/package/express-sslify for additional information.
+
+### Reverse Proxy
+If you're not using a cloud provider and would like to setup a reverse proxy, you can always roll your own. You would want to create a `docker-compose.yml` file, and use `jwilder/nginx-proxy` with this server.
+
+> There's a treasure trove of information linked from https://hub.docker.com/r/jwilder/nginx-proxy/, if you'd like to set up your own reverse proxy.
+
+### Multi-environment Support
+This Docker image, by default, sets `process.env.NODE_ENV` to `production`. A production setting is required to enforce features like HTTPS, which is not something you would like to do on your local development environment. However you may have test, beta or staging environments. To treat these environment as production, specify them in a common seperated format as shown in the example below.
+
+```Dockerfile
+FROM duluca/minimal-node-web-server
+
+WORKDIR /usr/src/app
+COPY dist public
+
+ENV ENVIRONMENTS=test,staging
+```
 
 ## How To Use This Image?
 You can fork it, modify it and go on your merry way. However, the intent is to even avoid that. Using the source code for this image as example, you can containirize your front-end application and with Docker Compose you can add this image as a dependency and host your Single Page Application (SPA) in its own container.
