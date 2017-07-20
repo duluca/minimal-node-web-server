@@ -3,12 +3,15 @@
   "version": "1.2.0",
   "description": "Containerized Minimal Node Web Server",
   "main": "index.js",
+
   "imageRepo": "duluca/minimal-node-web-server",
   "imageName": "minimal-node",
   "imagePort": "3000",
+
   "scripts": {
     "start": "node index",
     "test": "jasmine",
+
     "image:build": "npm run test && with-package docker image build . -t pkg.imageRepo:latest",
     "image:run": "npm run image:clean && npm run image:runHelper",
     "image:runHelper": "with-package docker run --name pkg.imageName -d -p pkg.imagePort:3000 pkg.imageRepo",
