@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node index",
     "test": "jasmine",
-    "image:build": "jasmine && with-package docker image build . -t pkg.imageRepo:latest",
+    "image:build": "npm run test && with-package docker image build . -t pkg.imageRepo:latest",
     "image:run": "npm run image:clean && npm run image:runHelper",
     "image:runHelper": "with-package docker run --name pkg.imageName -d -p pkg.imagePort:3000 pkg.imageRepo",
     "image:publish": "with-package docker image push pkg.imageRepo",
