@@ -11,13 +11,13 @@ Using this image as your web server is super easy.
 4. `COPY` your local `dist`, `build`, `public` or the folder that contains your finalized (transpiled, compiled, minified) output to the server's `public` folder.
 5. Want to enforce `HTTPS`? See below.
 
-### HTTP Example
+### Dockerfile HTTP Example
 ```Dockerfile
 FROM duluca/minimal-node-web-server
 
 WORKDIR /usr/src/app
 
-ENV NODE_ENV=local
+# (optional) ENV NODE_ENV=local
 
 #COPY "your local folder on your development environment (dist, build, public, etc)" "server's public content folder inside the container (public)"
 COPY dist public
