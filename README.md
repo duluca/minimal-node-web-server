@@ -39,13 +39,17 @@ FROM duluca/minimal-node-web-server
 WORKDIR /usr/src/app
 COPY dist public
 
+# Options [true | xProto | xArrSsl | forwardedHost]
 ENV ENFORCE_HTTPS=true
 ```
 
 _Beware:_ Setting up `HTTPS` in production is not a straight forward process. For the most part you'll be relying on your cloud provider to the complicated stuff for you, like housing your private keys, reverse proxying or load balancing. In that case use the settings below *instead* of `ENFORCE_HTTPS`:
-1. If you're on AWS ECS & ELB, Heroku or others that use `x-forwarded-proto` and would  like to enforce HTTPS then add this to Dockerfile: `ENV ENFORCE_HTTPS_PROTO=true`
-2. If you're on Azure and would like to enforce HTTPS then add this to Dockerfile: `ENV ENFORCE_HTTPS_AZURE=true`
-3. If you need `X-Forwarded-Host` support and would like to enforce HTTPS then add this to Dockerfile: `ENV ENFORCE_HTTPS_X_FORWARDED_HOST=true`
+| Environment | Header | ENFORCE_HTTPS Value |
+| --- | --- | --- |
+| Generic |   | `true` |
+| AWS, Heroku, Nginx, LoadBalancer, etc. | x-forwarded-proto | `xProto` |
+| Azure | x-arr-ssl | `xArrSsl` |
+| Custom | X-Forwarded-Host | `forwardedHost` |
 
 See https://www.npmjs.com/package/express-sslify for additional information.
 

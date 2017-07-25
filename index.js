@@ -1,47 +1,48 @@
-'use strict'
+const chalk = require('chalk')
 
-var http = require('http')
-var express = require('express')
-var bodyParser = require('body-parser')
-var logger = require('morgan')
-var compression = require('compression')
-var path = require('path')
-var enforce = require('express-sslify')
+function buildExpressApp() {
+  let express = require('express')
+  let bodyParser = require('body-parser')
+  let logger = require('morgan')
+  let compression = require('compression')
+  let path = require('path')
+  let app = express()
 
-var environmentDetector = require('./environmentDetector')
-var enforcer = require('./enforceHttps')
+  app.use(compression())
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(logger('dev'))
+  app.use('/', express.static(path.join(__dirname, 'public')))
 
-var app = express()
-
-app.use(compression())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(logger('dev'))
-
-var enforceHttps = process.env.ENFORCE_HTTPS ||
-                   process.env.ENFORCE_HTTPS_PROTO ||
-                   process.env.ENFORCE_HTTPS_AZURE ||
-                   process.env.ENFORCE_HTTPS_X_FORWARDED_HOST ||
-                   false
-
-var redirectToHttps = redirectToHttps
-    && environmentDetector.isProdEnvironment(process.env.NODE_ENV, process.env.ENVIRONMENTS)
-
-if(redirectToHttps) {
-  console.log('Enforcing HTTPS... ')
-  enforcer.enforce(app, enforce.HTTPS,
-                        process.env.ENFORCE_HTTPS_PROTO,
-                        process.env.ENFORCE_HTTPS_AZURE,
-                        process.env.ENFORCE_HTTPS_X_FORWARDED_HOST)
+  return app
 }
 
-app.use('/', express.static(path.join(__dirname, 'public')))
+function checkHttps(app) {
+  let sslify = require('express-sslify')
+  let enforcer = require('./enforceHttps')
 
-var server = http.createServer(app)
+  let enforceHttps = process.env.ENFORCE_HTTPS || false
 
-var port = process.env.PORT || 3000
+  let redirectToHttps = enforcer.shouldRedirect(enforceHttps, process.env.NODE_ENV, process.env.ENVIRONMENTS)
+
+  if(redirectToHttps) {
+    console.log(chalk.red('HTTP -> HTTPS enabled.'))
+    enforcer.enforce(app, sslify.HTTPS, process.env.ENFORCE_HTTPS)
+  }
+}
+
+console.log(`Current Environment: ${chalk.blue(process.env.NODE_ENV)}.`)
+
+let http = require('http')
+let app = buildExpressApp()
+checkHttps(app)
+
+let server = http.createServer(app)
+
+let port = process.env.PORT || 3000
 
 server.listen(port, function () {
-  console.log('Server listening internaly on port ' + port)
-  console.log('Note: The port you mapped to ' + port + ' may differ when accessing from the outside.')
+  console.log(chalk`Server listening on port {bold.blue ${port}} inside the container`)
+  console.log(chalk`{bgYellow.black Attenion:} To access server, use {bold http://localhost:EXTERNAL_PORT}`)
+  console.log(chalk`EXTERNAL_PORT is specified with {bold 'docker run -p EXTERNAL_PORT:${port}'}. See {bold 'package.json->imagePort'} for the default port.`)
 })

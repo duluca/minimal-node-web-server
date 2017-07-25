@@ -1,17 +1,14 @@
 {
   "name": "minimal-node-web-server",
-  "version": "1.2.0",
+  "version": "1.5.0",
   "description": "Containerized Minimal Node Web Server",
   "main": "index.js",
-
   "imageRepo": "duluca/minimal-node-web-server",
   "imageName": "minimal-node",
   "imagePort": "3000",
-
   "scripts": {
     "start": "node index",
     "test": "jasmine",
-
     "image:build": "npm run test && with-package docker image build . -t pkg.imageRepo:latest",
     "image:run": "npm run image:clean && npm run image:runHelper",
     "image:runHelper": "with-package docker run --name pkg.imageName -d -p pkg.imagePort:3000 pkg.imageRepo",
@@ -40,6 +37,7 @@
   "homepage": "https://github.com/duluca/minimal-node-web-server#readme",
   "dependencies": {
     "body-parser": "^1.17.1",
+    "chalk": "^2.0.1",
     "compression": "^1.6.2",
     "express": "^4.15.2",
     "express-sslify": "^1.2.0",

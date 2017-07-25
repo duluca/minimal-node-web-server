@@ -17,7 +17,7 @@ USER nodejs
 WORKDIR /usr/src/app
 
 COPY package.json .
-RUN NODE_ENV=production
+ENV NODE_ENV production
 RUN npm install --only=production
 
 ENV HOST "0.0.0.0"
