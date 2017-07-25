@@ -8,6 +8,8 @@ function buildExpressApp() {
   let path = require('path')
   let app = express()
 
+  applyHttps(app)
+
   app.use(compression())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: false }))
@@ -17,7 +19,7 @@ function buildExpressApp() {
   return app
 }
 
-function checkHttps(app) {
+function applyHttps(app) {
   let sslify = require('express-sslify')
   let enforcer = require('./enforceHttps')
 
@@ -35,7 +37,6 @@ console.log(`Current Environment: ${chalk.blue(process.env.NODE_ENV)}.`)
 
 let http = require('http')
 let app = buildExpressApp()
-checkHttps(app)
 
 let server = http.createServer(app)
 
