@@ -20,7 +20,6 @@ function buildExpressApp() {
 }
 
 function applyHttps(app) {
-  let sslify = require('express-sslify')
   let enforcer = require('./enforceHttps')
 
   let enforceHttps = process.env.ENFORCE_HTTPS || false
@@ -28,8 +27,9 @@ function applyHttps(app) {
   let redirectToHttps = enforcer.shouldRedirect(enforceHttps, process.env.NODE_ENV, process.env.ENVIRONMENTS)
 
   if(redirectToHttps) {
-    console.log(chalk.red('HTTP -> HTTPS enabled.'))
+    let sslify = require('express-sslify')
     enforcer.enforce(app, sslify.HTTPS, process.env.ENFORCE_HTTPS)
+    console.log(chalk.red(`HTTP -> HTTPS enabled. Mode: ${process.env.ENFORCE_HTTPS}`))
   }
 }
 
