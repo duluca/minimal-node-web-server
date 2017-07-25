@@ -1,8 +1,7 @@
-FROM alpine
+FROM node:6.11.1-alpine
 MAINTAINER Doguhan Uluca <duluca@gmail.com>
 
-RUN apk update
-RUN apk --update --no-progress add nodejs unrar bash git
+ENV NPM_CONFIG_LOGLEVEL error
 
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.1.1/dumb-init_1.1.1_amd64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init
