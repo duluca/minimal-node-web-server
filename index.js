@@ -1,3 +1,5 @@
+console.log(`Versions: ${JSON.stringify(process.versions, null, '  ')}`)
+
 const chalk = require('chalk')
 
 function buildExpressApp() {
@@ -7,6 +9,10 @@ function buildExpressApp() {
   let compression = require('compression')
   let path = require('path')
   let app = express()
+
+  app.get('/healthCheck', function(req,res) {
+    res.status(200).send('I\'m healthy papa!')
+  })
 
   applyHttps(app)
 
@@ -43,7 +49,6 @@ let server = http.createServer(app)
 let port = process.env.PORT || 3000
 
 server.listen(port, function () {
-  console.log(`Versions: ${JSON.stringify(process.versions, null, '  ')}`)
   console.log(chalk`Server listening on port {bold.blue ${port}} inside the container`)
   console.log(chalk`{bgYellow.black Attenion:} To access server, use {bold http://localhost:EXTERNAL_PORT}`)
   console.log(chalk`EXTERNAL_PORT is specified with {bold 'docker run -p EXTERNAL_PORT:${port}'}. See {bold 'package.json->imagePort'} for the default port.`)

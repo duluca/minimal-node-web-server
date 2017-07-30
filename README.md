@@ -42,7 +42,6 @@ COPY dist public
 # Options [true | xProto | xArrSsl | forwardedHost]
 ENV ENFORCE_HTTPS=true
 ```
-
 _Beware:_ Setting up `HTTPS` in production is not a straight forward process. For the most part you'll be relying on your cloud provider to the complicated stuff for you, like housing your private keys, reverse proxying or load balancing. In that case use the settings below *instead* of `ENFORCE_HTTPS`:
 | Environment | Header | ENFORCE_HTTPS Value |
 | --- | --- | --- |
@@ -50,6 +49,8 @@ _Beware:_ Setting up `HTTPS` in production is not a straight forward process. Fo
 | AWS, Heroku, Nginx, LoadBalancer, etc. | x-forwarded-proto | `xProto` |
 | Azure | x-arr-ssl | `xArrSsl` |
 | Custom | X-Forwarded-Host | `forwardedHost` |
+
+For instance health checks use `/healthCheck` to bypass HTTPS enforcement.
 
 See https://www.npmjs.com/package/express-sslify for additional information.
 
