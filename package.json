@@ -9,13 +9,13 @@
   "scripts": {
     "start": "node index",
     "test": "jasmine",
-    "image:build": "npm run test && with-package docker image build . -t pkg.imageRepo:latest",
-    "image:run": "npm run image:clean && npm run image:runHelper",
-    "image:runHelper": "with-package docker run --name pkg.imageName -d -p pkg.imagePort:3000 pkg.imageRepo",
-    "image:publish": "with-package docker image push pkg.imageRepo",
-    "image:clean": "with-package docker rm -f pkg.imageName || true",
-    "image:taillogs": "with-package docker logs -f pkg.imageName",
-    "image:debug": "npm run image:build && npm run image:run && sleep 1 && with-package open 'http://localhost:pkg.imagePort' && npm run image:taillogs"
+    "docker:build": "npm run test && with-package docker image build . -t pkg.imageRepo:latest",
+    "docker:run": "npm run docker:clean && npm run docker:runHelper",
+    "docker:runHelper": "with-package docker run --name pkg.imageName -d -p pkg.imagePort:3000 pkg.imageRepo",
+    "docker:publish": "with-package docker image push pkg.imageRepo",
+    "docker:clean": "with-package docker rm -f pkg.imageName || true",
+    "docker:taillogs": "with-package docker logs -f pkg.imageName",
+    "docker:debug": "npm run docker:build && npm run docker:run && sleep 1 && with-package open 'http://localhost:pkg.imagePort' && npm run docker:taillogs"
   },
   "repository": {
     "type": "git",
