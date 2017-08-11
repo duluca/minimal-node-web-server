@@ -1,5 +1,5 @@
 # minimal-node-web-server
-> Containerized Minimal Node Web Server -- Perfect for $5 month micro instances
+> Containerized Express Node Web Server -- Perfect for cheap hosting on AWS ECS, Digital Ocean, now.sh
 
 Pull the Docker Image [![](https://images.microbadger.com/badges/version/duluca/minimal-node-web-server.svg)](https://microbadger.com/images/duluca/minimal-node-web-server "Get your own version badge on microbadger.com") `docker pull duluca/minimal-node-web-server`
 
