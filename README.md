@@ -3,6 +3,8 @@
 
 Pull the Docker Image [![](https://images.microbadger.com/badges/version/duluca/minimal-node-web-server.svg)](https://microbadger.com/images/duluca/minimal-node-web-server "Get your own version badge on microbadger.com") `docker pull duluca/minimal-node-web-server`
 
+> Looking for _npm scripts for Docker_? Go [here](https://gist.github.com/duluca/d13e501e870215586271b0f9ce1781ce#file-npm-scripts-for-docker-md)!
+
 ## Quick Start
 Using this image as your web server is super easy.
 1. Create a `Dockerfile` on your projects new folder.
