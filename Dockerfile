@@ -1,4 +1,4 @@
-FROM node:8.3-alpine
+FROM node:8.4-alpine
 MAINTAINER Doguhan Uluca <duluca@gmail.com>
 
 ENV NPM_CONFIG_LOGLEVEL error

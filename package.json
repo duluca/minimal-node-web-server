@@ -1,6 +1,6 @@
 {
   "name": "minimal-node-web-server",
-  "version": "8.3.0",
+  "version": "8.4.0",
   "description": "Containerized Minimal Node Web Server",
   "main": "index.js",
   "imageRepo": "duluca/minimal-node-web-server",
