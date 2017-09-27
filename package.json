@@ -1,6 +1,6 @@
 {
   "name": "minimal-node-web-server",
-  "version": "8.4.0",
+  "version": "8.6.0",
   "description": "Containerized Minimal Node Web Server",
   "main": "index.js",
   "imageRepo": "duluca/minimal-node-web-server",
@@ -37,17 +37,17 @@
   },
   "homepage": "https://github.com/duluca/minimal-node-web-server#readme",
   "dependencies": {
-    "body-parser": "^1.17.2",
-    "chalk": "^2.0.1",
-    "compression": "^1.7.0",
-    "express": "^4.15.3",
+    "body-parser": "^1.18.2",
+    "chalk": "^2.1.0",
+    "compression": "^1.7.1",
+    "express": "^4.15.5",
     "express-sslify": "^1.2.0",
     "lodash": "^4.17.4",
-    "morgan": "^1.8.2",
+    "morgan": "^1.9.0",
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "jasmine": "^2.6.0",
+    "jasmine": "^2.8.0",
     "with-package": "^0.2.0"
   }
 }

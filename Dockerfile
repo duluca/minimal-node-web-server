@@ -1,5 +1,5 @@
-FROM node:8.4-alpine
-MAINTAINER Doguhan Uluca <duluca@gmail.com>
+FROM node:8.6-alpine
+LABEL maintainer="Doguhan Uluca <duluca@gmail.com>"
 
 ENV NPM_CONFIG_LOGLEVEL error
 
