@@ -44,7 +44,7 @@ COPY dist public
 # Options [true | xProto | xArrSsl | forwardedHost]
 ENV ENFORCE_HTTPS=true
 ```
-_Beware:_ Setting up `HTTPS` in production is not a straight forward process. For the most part you'll be relying on your cloud provider to the complicated stuff for you, like housing your private keys, reverse proxying or load balancing. In that case use the settings below *instead* of `ENFORCE_HTTPS`:
+_Beware:_ Setting up `HTTPS` in production is not a straight forward process. For the most part you'll be relying on your cloud provider to do the complicated stuff for you, like housing your private keys, reverse proxying or load balancing. In that case use the settings below *instead* of `ENFORCE_HTTPS`:
 
 | Environment | Header | ENFORCE_HTTPS Value |
 | --- | --- | --- |
