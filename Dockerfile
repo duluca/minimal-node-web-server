@@ -1,5 +1,4 @@
 FROM node:8.6-alpine
-LABEL maintainer="Doguhan Uluca <duluca@gmail.com>"
 
 ENV NPM_CONFIG_LOGLEVEL error
 
@@ -11,7 +10,6 @@ RUN mkdir -p /usr/src/app
 RUN adduser -S nodejs
 RUN chown nodejs: /usr/src/app
 USER nodejs
-# RUN daemon with `dockerd --userns-remap=nodejs`
 
 WORKDIR /usr/src/app
 
