@@ -1,22 +1,33 @@
 {
   "name": "minimal-node-web-server",
-  "version": "8.6.0",
+  "version": "8.11.1",
   "description": "Containerized Minimal Node Web Server",
   "main": "index.js",
-  "imageRepo": "duluca/minimal-node-web-server",
-  "imageName": "minimal-node",
-  "imagePort": "3000",
+  "config": {
+    "imageRepo": "duluca/minimal-node-web-server",
+    "imageName": "minimal-node",
+    "imagePort": "3000"
+  },
   "scripts": {
     "start": "node index",
     "test": "jasmine",
-    "docker:build": "npm run test && with-package docker image build . -t pkg.imageRepo:pkg.version && npm run docker:tag",
-    "docker:tag": "with-package docker image tag pkg.imageRepo:pkg.version pkg.imageRepo:latest",
-    "docker:run": "npm run docker:clean && npm run docker:runHelper",
-    "docker:runHelper": "with-package docker run --name pkg.imageName -d -p pkg.imagePort:3000 pkg.imageRepo",
-    "docker:publish": "with-package docker image push pkg.imageRepo",
-    "docker:clean": "with-package docker rm -f pkg.imageName || true",
-    "docker:taillogs": "with-package docker logs -f pkg.imageName",
-    "docker:debug": "npm run docker:build && npm run docker:run && sleep 1 && with-package open 'http://localhost:pkg.imagePort' && npm run docker:taillogs"
+    "predocker:build": "npm test",
+    "docker:build": "cross-conf-env docker image build . -t $npm_package_config_imageRepo:$npm_package_version",
+    "postdocker:build": "npm run docker:tag",
+    "docker:tag": " cross-conf-env docker image tag $npm_package_config_imageRepo:$npm_package_version $npm_package_config_imageRepo:latest",
+    "docker:run": "run-s -c docker:clean docker:runHelper",
+    "docker:runHelper": "cross-conf-env docker run -e NODE_ENV=local --name $npm_package_config_imageName -d -p $npm_package_config_imagePort:3000 $npm_package_config_imageRepo",
+    "predocker:publish": "echo Attention! Ensure `docker login` is correct.",
+    "docker:publish": "cross-conf-env docker image push $npm_package_config_imageRepo:$npm_package_version",
+    "postdocker:publish": "cross-conf-env docker image push $npm_package_config_imageRepo:latest",
+    "docker:clean": "cross-conf-env docker rm -f $npm_package_config_imageName",
+    "predocker:taillogs": "echo Web Server Logs:",
+    "docker:taillogs": "cross-conf-env docker logs -f $npm_package_config_imageName",
+    "docker:open:win": "echo Trying to launch on Windows && timeout 2 && start http://localhost:%npm_package_config_imagePort%",
+    "docker:open:mac": "echo Trying to launch on MacOS && sleep 2 && URL=http://localhost:$npm_package_config_imagePort && open $URL",
+    "docker:debugmessage": "echo Docker Debug Completed Successfully! Hit Ctrl+C to terminate log tailing.",
+    "predocker:debug": "run-s docker:build docker:run",
+    "docker:debug": "run-s -cs docker:open:win docker:open:mac docker:debugmessage docker:taillogs"
   },
   "repository": {
     "type": "git",
@@ -38,16 +49,17 @@
   "homepage": "https://github.com/duluca/minimal-node-web-server#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "chalk": "^2.1.0",
-    "compression": "^1.7.1",
-    "express": "^4.15.5",
+    "chalk": "^2.4.1",
+    "compression": "^1.7.2",
+    "express": "^4.16.3",
     "express-sslify": "^1.2.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.10",
     "morgan": "^1.9.0",
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "jasmine": "^2.8.0",
-    "with-package": "^0.2.0"
+    "cross-conf-env": "^1.1.2",
+    "jasmine": "^3.1.0",
+    "npm-run-all": "^4.1.3"
   }
 }
