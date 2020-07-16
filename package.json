@@ -57,7 +57,7 @@
     "compression": "^1.7.4",
     "express": "^4.17.1",
     "express-sslify": "^1.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "morgan": "^1.9.1",
     "path": "^0.12.7"
   },
